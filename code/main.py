@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from google.cloud import storage
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -93,5 +94,36 @@ quantidade_arquivos, tamanho_total, lista_arquivos = obter_dados_pasta(gd_servic
 # Exibir resultados
 print(f'Quantidade de arquivos na pasta: {quantidade_arquivos}')
 print(f'Tamanho total ocupado: {tamanho_total} bytes')
+
+gd_files_list = [\
+ {
+     'current_path': gd_file['current_path'],
+     'size': int(gd_file['size'])
+ } \
+ for gd_file in lista_arquivos if gd_file['trashed'] == False]
+
+
+try:
+    gd_files_df = pd.DataFrame.from_dict(gd_files_list)
+    gd_files_df.columns = ['current_path', 'gd_size']
+except KeyError:
+    gd_files_df = pd.DataFrame(columns = ['current_path', 'gd_size'])
+gs_files_df = pd.DataFrame.from_dict(gs_files_list)
+gs_files_df.columns = ['current_path', 'gs_size']
+
+# perform a full outer join on the customer_id column
+all_files = pd.merge(
+    gd_files_df, 
+    gs_files_df, 
+    on='current_path', 
+    how='outer')
+
+dif_files = all_files[(all_files.gd_size != all_files.gs_size)]
+
+gd_to_delete = dif_files[dif_files.gs_size.isna()]
+gs_to_copy = dif_files[dif_files.gd_size.isna()]
+print(dif_files)
+print(gd_to_delete)
+print(gs_to_copy)
 
 
