@@ -15,6 +15,11 @@ gs_prefix = os.getenv('GCP_PREFIX', '')
 dest_folder_id = os.getenv('DEST_FOLDER_ID', '')
 team_drive_id = os.getenv('TEAM_DRIVER_ID', '')
 
+source_folder = f"{os.getenv('INPUT_DIR', '')}/{gs_prefix}"
+destination_folder = f"{os.getenv('OUTPUT_DIR', '')}/{gs_prefix}"
+print(f'source_folder: {source_folder}')
+print(f'destination_folder: {destination_folder}')
+
 # Acesse o bucket desejado
 blobs = storage_client.list_blobs(
         bucket_or_name = bucket_id,
