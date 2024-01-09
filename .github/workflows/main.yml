@@ -79,7 +79,9 @@ jobs:
           export OUTPUT_DIR=${{ github.workspace }}/output-files/${{ github.event.inputs.gcp_prefix}}
           export GCP_PREFIX=${{ github.event.inputs.gcp_prefix}}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
-          export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}          
+          export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}
+          export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
+          
           pip3 install -r ./code/requirements.txt
           python3 ./code/main.py
 
