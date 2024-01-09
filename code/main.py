@@ -12,11 +12,12 @@ storage_client = storage.Client.from_service_account_json(google_storage_json_fi
 bucket_id = os.getenv('GCP_BUCKET', '')
 
 gs_prefix = os.getenv('GCP_PREFIX', '')
+gd_prefix = os.getenv('GD_PREFIX', '')
 dest_folder_id = os.getenv('DEST_FOLDER_ID', '')
 team_drive_id = os.getenv('TEAM_DRIVER_ID', '')
 
 source_folder = f"{os.getenv('INPUT_DIR', '')}/{gs_prefix}"
-destination_folder = f"{os.getenv('OUTPUT_DIR', '')}/{gs_prefix}"
+destination_folder = f"{os.getenv('OUTPUT_DIR', '')}/{gd_prefix}"
 print(f'source_folder: {source_folder}')
 print(f'destination_folder: {destination_folder}')
 
