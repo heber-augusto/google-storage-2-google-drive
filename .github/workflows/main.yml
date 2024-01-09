@@ -63,8 +63,8 @@ jobs:
           chmod o+w  ${XDG_CONFIG_HOME}/gdfuse/.
           
           export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
-          # cat $GD_JSON_FILE | base64
-          echo ${{ secrets.gd_credentials }} > $GD_JSON_FILE
+          cat  > "$GD_JSON_FILE"
+          echo ${{ secrets.gd_credentials }} > "$GD_JSON_FILE"
           
           google-drive-ocamlfuse -xdgbd -label mylabel -serviceaccountpath $GD_JSON_FILE -serviceaccountuser ${{ secrets.gd_account_service }}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
