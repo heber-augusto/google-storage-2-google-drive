@@ -114,6 +114,9 @@ try:
     gd_files_df.columns = ['current_path', 'gd_size']
 except KeyError:
     gd_files_df = pd.DataFrame(columns = ['current_path', 'gd_size'])
+except ValueError:
+    gd_files_df = pd.DataFrame(columns = ['current_path', 'gd_size'])        
+
 gs_files_df = pd.DataFrame.from_dict(gs_files_list)
 gs_files_df.columns = ['current_path', 'gs_size']
 
