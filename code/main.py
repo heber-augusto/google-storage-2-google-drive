@@ -135,4 +135,46 @@ print(dif_files)
 print(gd_to_delete)
 print(gs_to_copy)
 
+import os
+import shutil
+from concurrent.futures import ThreadPoolExecutor
 
+def remove_file(src, dest):
+    try:
+        os.remove(dest)
+    except OSError as e:
+        print(f"Error removing file {dest}: {e}")
+
+def copy_file(src, dest):
+    shutil.copy2(src, dest)    
+
+def process_files(file_function, file_list, src_folder, dest_folder, max_workers=5):
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for file in file_list:
+            src_file = os.path.join(src_folder, file)
+            dest_file = os.path.join(dest_folder, file)
+
+            # Ensure the destination folder structure exists
+            dest_path = os.path.dirname(dest_file)
+            if not os.path.exists(dest_path):
+                os.makedirs(dest_path)
+
+            executor.submit(file_function, src_file, dest_file)
+
+# List of files (relative paths to source_folder) to be copied
+files_to_copy = list(gs_to_copy.to_dict()['current_path'].values())
+files_to_delete = list(gd_to_delete.to_dict()['current_path'].values())
+
+file = files_to_copy[0]
+src_file = os.path.join(source_folder, file)
+dest_file = os.path.join(destination_folder, file)
+
+# Ensure the destination folder structure exists
+dest_path = os.path.dirname(dest_file)
+if not os.path.exists(dest_path):
+    os.makedirs(dest_path)
+
+copy_file(src_file, dest_file)
