@@ -77,7 +77,7 @@ jobs:
           python3 ./code/config_gdfuse.py
           google-drive-ocamlfuse -cc -label mylabel ${OUTPUT_DIR}          
           
-      - name: Prepare permissions, scripts and call script to collect files
+      - name: Prepare permissions, variables and call script to move files
         working-directory: ./code
         run: |
           export INPUT_DIR=${{ github.workspace }}/google-storage
