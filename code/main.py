@@ -128,9 +128,9 @@ dif_files = all_files[(all_files.gd_size != all_files.gs_size)]
 
 gd_to_delete = dif_files[dif_files.gs_size.isna()]
 gs_to_copy = dif_files[dif_files.gd_size.isna()]
-print(dif_files)
-print(gd_to_delete)
-print(gs_to_copy)
+# print(dif_files)
+# print(gd_to_delete)
+# print(gs_to_copy)
 
 import os
 import shutil
@@ -165,13 +165,16 @@ def process_files(file_function, file_list, src_folder, dest_folder, max_workers
 files_to_copy = list(gs_to_copy.to_dict()['current_path'].values())
 files_to_delete = list(gd_to_delete.to_dict()['current_path'].values())
 
-file = files_to_copy[0]
-src_file = os.path.join(source_folder, file)
-dest_file = os.path.join(destination_folder, file)
+process_files(
+    file_function = copy_file,
+    file_list = files_to_copy, 
+    src_folder = source_folder, 
+    dest_folder = destination_folder, 
+    max_workers=50)
 
-# Ensure the destination folder structure exists
-dest_path = os.path.dirname(dest_file)
-if not os.path.exists(dest_path):
-    os.makedirs(dest_path)
-
-copy_file(src_file, dest_file)
+process_files(
+    file_function = remove_file,
+    file_list = files_to_delete, 
+    src_folder = source_folder, 
+    dest_folder = destination_folder, 
+    max_workers=5)
