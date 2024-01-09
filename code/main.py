@@ -170,7 +170,7 @@ process_files(
     file_list = files_to_copy, 
     src_folder = source_folder, 
     dest_folder = destination_folder, 
-    max_workers=50)
+    max_workers=100)
 
 process_files(
     file_function = remove_file,
