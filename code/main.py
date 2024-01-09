@@ -14,9 +14,6 @@ gs_prefix = os.getenv('GCP_PREFIX', '')
 dest_folder_id = os.getenv('DEST_FOLDER_ID', '')
 team_drive_id = os.getenv('TEAM_DRIVER_ID', '')
 
-
-bucket_id = 'observatorio-oncologia'
-
 # Acesse o bucket desejado
 blobs = storage_client.list_blobs(
         bucket_or_name = bucket_id,
