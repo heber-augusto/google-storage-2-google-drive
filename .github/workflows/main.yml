@@ -41,14 +41,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install gcsfuse
 
-          sudo groupadd fuse
-          sudo usermod -a -G fuse $USER
-          sudo chown $USER_ID:fuse ${{ github.workspace }}/output-files
-
           export INPUT_DIR=${{ github.workspace }}/google-storage          
           mkdir ${INPUT_DIR}
+
+          sudo groupadd fuse
+          sudo usermod -a -G fuse $USER
+          sudo chown $USER_ID:fuse ${INPUT_DIR}
          
-          gcsfuse --dir-mode=777 --file-mode=777 --key-file=$GOOGLE_APPLICATION_CREDENTIALS --implicit-dirs ${{ secrets.gcp_bucket }} ${INPUT_DIR}       
+          gcsfuse --dir-mode=777 --file-mode=777 --key-file=$GOOGLE_APPLICATION_CREDENTIALS --implicit-dirs ${{ secrets.gcp_bucket }} ${INPUT_DIR}
       - name: 'install and config google-drive-ocamlfuse to access google drive'
         run: |
           sudo add-apt-repository --yes ppa:alessandro-strada/ppa
