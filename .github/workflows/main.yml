@@ -1,4 +1,4 @@
-4name: Moving files from google storage to google drive
+name: Moving files from google storage to google drive
 run-name: ${{ github.actor }} moving files from google storage to google drive 🚀
 on: 
   workflow_dispatch:
