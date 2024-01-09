@@ -33,10 +33,6 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: '${{ secrets.gcp_credentials }}'
-      - name: Create output and temp dir
-        run: |  
-          export OUTPUT_DIR=${{ github.workspace }}/output-files
-          mkdir ${OUTPUT_DIR}          
       - name: 'install gcsfuse to access bucket'
         run: |
           export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
@@ -48,14 +44,28 @@ jobs:
           sudo groupadd fuse
           sudo usermod -a -G fuse $USER
           sudo chown $USER_ID:fuse ${{ github.workspace }}/output-files
-          
-          gcsfuse --dir-mode=777 --file-mode=777 --key-file=$GOOGLE_APPLICATION_CREDENTIALS --implicit-dirs ${{ secrets.gcp_bucket }} ${{ github.workspace }}/output-files       
-      - name: 'install google-drive-ocamlfuse to access google drive'
+
+          export INPUT_DIR=${{ github.workspace }}/google-storage          
+          mkdir ${INPUT_DIR}
+         
+          gcsfuse --dir-mode=777 --file-mode=777 --key-file=$GOOGLE_APPLICATION_CREDENTIALS --implicit-dirs ${{ secrets.gcp_bucket }} ${INPUT_DIR}       
+      - name: 'install and config google-drive-ocamlfuse to access google drive'
         run: |
           sudo add-apt-repository --yes ppa:alessandro-strada/ppa
           sudo apt-get update
           sudo apt-get install google-drive-ocamlfuse
-          
+
+          export OUTPUT_DIR=${{ github.workspace }}/google-drive
+          mkdir ${OUTPUT_DIR}
+
+          export XDG_CONFIG_HOME=${{ github.workspace }}
+          mkdir ${XDG_CONFIG_HOME}/gdfuse
+          chmod o+w  ${XDG_CONFIG_HOME}/gdfuse/.
+          export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
+          cat GD_JSON_FILE
+          echo ${{ secrets.gd_credentials }} > ${GD_JSON_FILE}
+          !google-drive-ocamlfuse -xdgbd -label monitor -serviceaccountpath ${GD_JSON_FILE} -serviceaccountuser ${{ secrets.gd_account_service }}
+
       - name: Prepare permissions, scripts and call script to collect files
         working-directory: ./code
         run: |
