@@ -1,4 +1,4 @@
-name: Moving files from google storage to google drive
+4name: Moving files from google storage to google drive
 run-name: ${{ github.actor }} moving files from google storage to google drive 🚀
 on: 
   workflow_dispatch:
@@ -62,7 +62,7 @@ jobs:
           mkdir ${XDG_CONFIG_HOME}/gdfuse
           chmod o+w  ${XDG_CONFIG_HOME}/gdfuse/.
           export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
-          cat ${GD_JSON_FILE} | dummy
+          # cat ${GD_JSON_FILE} | dummy
           echo ${{ secrets.gd_credentials }} > ${GD_JSON_FILE}
           google-drive-ocamlfuse -xdgbd -label mylabel -serviceaccountpath ${GD_JSON_FILE} -serviceaccountuser ${{ secrets.gd_account_service }}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
