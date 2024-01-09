@@ -76,7 +76,8 @@ jobs:
       - name: Prepare permissions, scripts and call script to collect files
         working-directory: ./code
         run: |
-          export OUTPUT_DIR=${{ github.workspace }}/output-files/${{ github.event.inputs.gcp_prefix}}
+          export INPUT_DIR=${{ github.workspace }}/google-storage
+          export OUTPUT_DIR=${{ github.workspace }}/google-drive
           export GCP_PREFIX=${{ github.event.inputs.gcp_prefix}}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
           export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}
