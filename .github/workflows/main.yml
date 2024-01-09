@@ -6,7 +6,11 @@ on:
       gcp_prefix:
         description: 'gcp path prefix'
         required: true
-        default: ''
+        default: 'folder_path'
+      gd_prefix:
+        description: 'gd path prefix'
+        required: true
+        default: 'folder_path'        
       team_driver_id:
         description: 'google drive team drive id'
         required: true
@@ -79,6 +83,7 @@ jobs:
           export INPUT_DIR=${{ github.workspace }}/google-storage
           export OUTPUT_DIR=${{ github.workspace }}/google-drive
           export GCP_PREFIX=${{ github.event.inputs.gcp_prefix}}
+          export GD_PREFIX=${{ github.event.inputs.gd_prefix}}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
           export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}
           export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
