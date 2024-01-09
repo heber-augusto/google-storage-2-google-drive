@@ -82,8 +82,8 @@ jobs:
           export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}
           export GD_JSON_FILE=${{ github.workspace }}/gdfuse/gd_credentials.json
           export GCP_BUCKET=${{ secrets.gcp_bucket }}
-          pip3 install -r ./code/requirements.txt
-          python3 ./code/main.py
+          pip3 install -r ./requirements.txt
+          python3 ./main.py
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - uses: gautamkrishnar/keepalive-workflow@v1 # using the workflow with default settings
