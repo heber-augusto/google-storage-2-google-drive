@@ -97,17 +97,14 @@ gd_service = autenticar_servico(google_drive_json_filename, escopos)
 # Obter dados da pasta no Team Drive
 quantidade_arquivos, tamanho_total, lista_arquivos = obter_dados_pasta(gd_service, team_drive_id, dest_folder_id)
 
-# Exibir resultados
-print(f'Quantidade de arquivos na pasta: {quantidade_arquivos}')
-print(f'Tamanho total ocupado: {tamanho_total} bytes')
-
 gd_files_list = [\
  {
      'current_path': gd_file['current_path'],
      'size': int(gd_file['size'])
  } \
  for gd_file in lista_arquivos if gd_file['trashed'] == False]
-
+print(f"GD folder : {sum([file['size'] for file in gd_files_list])} bytes")
+print(f"GD folder : {len(gd_files_list])} arquivos")
 
 try:
     gd_files_df = pd.DataFrame.from_dict(gd_files_list)
