@@ -1,3 +1,4 @@
+import os
 
 gdfuse_config_path = os.environ['GDFUSE_CONFIG_PATH']
 team_drive_id = os.environ['TEAM_DRIVER_ID']
