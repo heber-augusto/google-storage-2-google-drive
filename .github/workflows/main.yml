@@ -80,8 +80,8 @@ jobs:
           export GCP_PREFIX=${{ github.event.inputs.gcp_prefix}}
           export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
           export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}          
-          pip3 install -r ../requirements.txt
-          python3 ./main.py
+          pip3 install -r ./code/requirements.txt
+          python3 ./code/main.py
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - uses: gautamkrishnar/keepalive-workflow@v1 # using the workflow with default settings
