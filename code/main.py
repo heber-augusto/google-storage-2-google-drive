@@ -21,7 +21,7 @@ gs_files = [blob for blob in blobs]
 
 gs_files_list = [\
   {
-      'current_path': gs_file.name.replace(gs_prefix, ''),
+      'current_path': gs_file.name.replace(f"{gs_prefix}/", ''),
       'size': int(gs_file.size)
   } \
   for gs_file in gs_files if gs_file.size > 0]
