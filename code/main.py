@@ -104,7 +104,7 @@ gd_files_list = [\
  } \
  for gd_file in lista_arquivos if gd_file['trashed'] == False]
 print(f"GD folder : {sum([file['size'] for file in gd_files_list])} bytes")
-print(f"GD folder : {len(gd_files_list])} arquivos")
+print(f"GD folder : {len(gd_files_list)} arquivos")
 
 try:
     gd_files_df = pd.DataFrame.from_dict(gd_files_list)
