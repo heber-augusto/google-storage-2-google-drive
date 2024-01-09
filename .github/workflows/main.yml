@@ -8,9 +8,13 @@ on:
         required: true
         default: ''
       team_driver_id:
-        description: 'gcp path prefix'
+        description: 'google drive team drive id'
         required: true
-        default: ''        
+        default: '' 
+      dest_folder_id:
+        description: 'google drive destination folder id'
+        required: true
+        default: ''         
     # agendamento para execucao todo dia as 8:00 da manhã
   schedule:
     - cron:  '0 8 * * *'
@@ -46,12 +50,19 @@ jobs:
           sudo chown $USER_ID:fuse ${{ github.workspace }}/output-files
           
           gcsfuse --dir-mode=777 --file-mode=777 --key-file=$GOOGLE_APPLICATION_CREDENTIALS --implicit-dirs ${{ secrets.gcp_bucket }} ${{ github.workspace }}/output-files       
+      - name: 'install google-drive-ocamlfuse to access google drive'
+        run: |
+          sudo add-apt-repository --yes ppa:alessandro-strada/ppa
+          sudo apt-get update
+          sudo apt-get install google-drive-ocamlfuse
           
       - name: Prepare permissions, scripts and call script to collect files
         working-directory: ./code
         run: |
           export OUTPUT_DIR=${{ github.workspace }}/output-files/${{ github.event.inputs.gcp_prefix}}
           export GCP_PREFIX=${{ github.event.inputs.gcp_prefix}}
+          export TEAM_DRIVER_ID=${{ github.event.inputs.team_driver_id}}
+          export DEST_FOLDER_ID=${{ github.event.inputs.dest_folder_id}}          
           pip3 install -r ../requirements.txt
           python3 ./main.py
 
