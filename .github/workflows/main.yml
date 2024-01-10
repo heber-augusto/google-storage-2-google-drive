@@ -20,8 +20,8 @@ on:
         required: true
         default: ''         
     # agendamento para execucao todo dia as 8:00 da manhã
-  schedule:
-    - cron:  '0 8 * * *'
+  #schedule:
+  #  - cron:  '0 8 * * *'
 jobs:
   Moving-Data-Using-GitHub-Actions:
     runs-on: ubuntu-latest
